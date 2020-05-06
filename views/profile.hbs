@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>newsCrunch</title>
+    <link rel="shortcut icon" href="pictures/logo_ico.ico" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/profile.css">
+</head>
+
+<body>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="/"><span class="text-success">news</span><span
+                    class="text-light">Crunch</span></a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://twitter.com/newsCrunch_" target="_blank"><i
+                                class="fab fa-twitter text-light"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.instagram.com/newscrunch_" target="_blank"><i
+                                class="fab fa-instagram text-light"></i></a>
+                    </li>
+                    {{#if user.id}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user text-light"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="/bookmark">Bookmarks</a>
+                            <a class="dropdown-item" href="#" id="history">History</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                    {{/if}}
+
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 mt-5">
+            <div class="container">
+                <div class="border rounded shadow p-3 text-center p-2">
+                    {{#if user.photo}}
+                    <img class="border rounded-circle" src="{{user.photo}}" alt="" accept="image/*"
+                        style="min-height: 175px; max-height:175px; min-width:175px; max-width: 175px;">
+                    {{else}}
+                    <img class="border rounded-circle"
+                        src="https://cdn.clipart.email/4cbb2d6a9c54bf6392db15f317276c88_will-you-change-your-facebook-profile-picture-after-reading-this_1600-1008.jpeg"
+                        alt="" style="min-height: 175px; max-height:175px; min-width:175px; max-width: 175px;">
+                    {{/if}}
+
+                    <h4 class="mt-2">{{user.name}}</h4>
+                </div>
+                {{#if updated}}
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Success!</strong> Indicates a successful or positive action.
+                </div>
+                {{/if}}
+            </div>
+
+
+
+
+        </div>
+        <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-8 mt-5 border rounded border-muted shadow">
+                    <div class="row">
+                        <div class="col-md-8 my-5">
+                            <ul>
+                                <li class="proLi" style="width: 90%;">Email: {{user.email}} </li>
+                                <li class="proLi" style="width: 85%;">Country: {{user.country}}</li>
+                                <li class="proLi" style="width: 80%;">State: {{user.state}}</li>
+                                <li class="proLi" style="width: 75%;">City: {{user.city}} </li>
+                                <li class="proLi" style="width: 70%;">Phone: {{user.phone}}</li>
+                                <li class="proLi" style="width: 60%;">Age: {{user.age}}</li>
+
+
+                            </ul>
+                        </div>
+                        <div class="col-md-3 offset-md-1 mt-5">
+                            <p><a href="#" class="btn btn-sm btn-outline-success"><i id="edit" class="fa fa-pencil"
+                                        data-toggle="modal" data-target="#myModal"> Edit Profile</i></a></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-4 mt-5 mb-3 text-center weather">
+                    <div class="container">
+                        <div class="row">
+                            <div id="openweathermap-widget-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit profile</h4>
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                </div>
+
+                <!-- Modal body -->
+                <form action="/userupdate" method="POST" enctype="multipart/form-data">
+                    <div class="modal-body update-modal">
+                        <label for="photo" class="mt-3">Photo</label>
+                        <input type="file" class="form-control mt-1" name="photo" placeholder="Insert a picture"
+                            accept="image/*" value="{{user.photo}}">
+                        <hr>
+                        <label for="name" class="mt-3">Details</label>
+                        <input type="text" class="form-control mt-1" name="name" placeholder="Full name"
+                            value="{{user.name}}">
+                        <input type="tel" class="form-control mt-3" name="phone" placeholder="Phone number"
+                            value="{{user.phone}}" pattern="[789][0-9]{9}">
+                        <input type="number" class="form-control mt-3" name="age" placeholder="Age" value="{{user.age}}" maxlength="3">
+                        <select name="country" class="countries select form-control mt-3" id="countryId" required>
+                            <option value="{{user.country}}">Select Country</option>
+                        </select>
+                        <select name="state" class="states select form-control mt-3" id="stateId" required>
+                            <option value="{{user.state}}">Select State</option>
+                        </select>
+                        <select name="city" class="cities select form-control mt-3" id="cityId" required>
+                            <option value="{{user.city}}">Select City</option>
+                        </select>
+                        <hr>
+                        <label for="password" class="mt-3">Change Password</label>
+                        <input type="hidden" value="{{user.password}}" id="oldpassword">
+                        <input type="password" class="form-control mt-1" name="password" placeholder="Previous Password"
+                            id="password">
+                        <input type="password" class="form-control mt-3" name="newpassword" placeholder="New Password"
+                            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" id="newpassword">
+                        <input type="password" class="form-control mt-3" name="cfpassword" placeholder="Confirm Password"
+                            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" id="cfpassword">    
+                        <label for="email" class="mt-3">Email</label>
+                        <input type="text" class="form-control mt-1" name="email" placeholder="Email"
+                            value="{{user.email}}" disabled>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-sm btn-outline-info" id="updatebutton">Update</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            aria-hidden="true" id='historymodal'>
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-white">Search History</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        {{#if user.history.length}}
+                        <form method="POST">
+                            <input type="checkbox" class="btn btn-success btn-sm mt-3 mr-2" id="selectall">
+                            <button type="submit" class="btn btn-danger btn-sm mt-3 mr-2" id="historydelete"
+                                formaction="/deletehistory" disabled>Delete</button>
+                            <button type="submit" class="btn btn-warning btn-sm mt-3" id="interestadd"
+                                formaction="/interestadd" disabled>Add as Interest</button>
+                            <div class="mt-3 allhistory">
+                                {{#each user.history}}
+                                <div class="form-check">
+                                    <input class="form-check-input historycheck mr-4" type="checkbox" name="history"
+                                        value="{{this}}">
+                                    <label class="form-check-label">
+                                        <a href="search?q={{this}}" class="text-dark">{{this}}</a>
+                                    </label>
+                                </div>
+                                {{/each}}
+                            </div>
+
+                        </form>
+                        {{else}}
+                        <h3 class="font-weight-lighter text-center m-4">No History.</h3>
+                        {{/if}}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    <input type="hidden" value="{{userCity}}" id="city">
+
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+<script src="//geodata.solutions/includes/countrystatecity.js"></script>
+<script src="js/profile.js"></script>
+
+
+</html>

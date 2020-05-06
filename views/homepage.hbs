@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>newsCrunch</title>
+    <link rel="shortcut icon" href="pictures/logo_ico.ico" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/homepage.css">
+</head>
+
+<body>
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+            <i class="fas fa-bars text-light" id="newscrunch"></i>&nbsp;&nbsp;<a class="navbar-brand" href="/"><span
+                    class="text-success">news</span><span class="text-light">Crunch</span></a>
+            <div class="has-search col-6 offset-md-1 offset-sm-1">
+                <span class="fa fa-search form-control-feedback"></span>
+                <form action="/search" method="GET">
+                <input type="text" class="form-control submit_on_enter" placeholder="Search" id="search" name="q" pattern="[a-zA-Z0-9]+">
+                </form>
+            </div>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://twitter.com/newsCrunch_" target="_blank"><i
+                                class="fab fa-twitter text-light"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.instagram.com/newscrunch_" target="_blank"><i
+                                class="fab fa-instagram text-light"></i></a>
+                    </li>
+                    {{#if user.id}}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user text-light"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/profile">Profile</a>
+                            <a class="dropdown-item" href="/bookmark">Bookmarks</a>
+                            <a class="dropdown-item" href="#" id="history">History</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout">Logout</a>
+                        </div>
+                    </li>
+                    {{else}}
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="/login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                    {{/if}}
+
+                </ul>
+            </div>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2 p-0">
+                    <div class="categories">
+                        <div class="col-md-12 position-sticky p-0">
+                            <div>
+                                <div class="list-group list-group-flush mt-5 p-0">
+                                    {{#if topHeadlines}}
+                                    <a href="/"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Top
+                                        Headlines</a>
+                                    {{else}}
+                                    <a href="/" class="list-group-item list-group-item-action border-0 mt-1">Top
+                                        Headlines</a>
+                                    {{/if}}
+                                    {{#if general}}
+                                    <a href="/general"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">General</a>
+                                    {{else}}
+                                    <a href="/general"
+                                        class="list-group-item list-group-item-action border-0 mt-1">General</a>
+                                    {{/if}}
+                                    {{#if world}}
+                                    <a href="/world"
+                                        class="list-group-item list-group-item-action border-0 selected">World</a>
+                                    {{else}}
+                                    <a href="/world" class="list-group-item list-group-item-action border-0">World</a>
+                                    {{/if}}
+                                    {{#if business}}
+                                    <a href="/business"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Business</a>
+                                    {{else}}
+                                    <a href="/business"
+                                        class="list-group-item list-group-item-action border-0 mt-1">Business</a>
+                                    {{/if}}
+                                    {{#if entertainment}}
+                                    <a href="/entertainment"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Entertainment</a>
+                                    {{else}}
+                                    <a href="/entertainment"
+                                        class="list-group-item list-group-item-action border-0 mt-1">Entertainment</a>
+                                    {{/if}}
+                                    {{#if health}}
+                                    <a href="/health"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Health</a>
+                                    {{else}}
+                                    <a href="/health"
+                                        class="list-group-item list-group-item-action border-0 mt-1">Health</a>
+                                    {{/if}}
+                                    {{#if science}}
+                                    <a href="/science"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Science</a>
+                                    {{else}}
+                                    <a href="/science"
+                                        class="list-group-item list-group-item-action border-0 mt-1">Science</a>
+                                    {{/if}}
+                                    {{#if sports}}
+                                    <a href="/sports"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Sports</a>
+                                    {{else}}
+                                    <a href="/sports"
+                                        class="list-group-item list-group-item-action border-0 mt-1">Sports</a>
+                                    {{/if}}
+                                    {{#if technology}}
+                                    <a href="/technology"
+                                        class="list-group-item list-group-item-action border-0 mt-1 selected">Technology</a>
+                                    {{else}}
+                                    <a href="/technology"
+                                        class="list-group-item list-group-item-action border-0 mt-1">Technology</a>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10 border-left">
+                    <div class="row">
+                        <div class="col-md-8 bg-light p-0 news-col">
+                            <h4 class="p-3 bg-white border-bottom border-muted text-success text-center " id="title">
+                                {{#if topHeadlines}}
+                                Top Headlines
+                                {{/if}}
+                                {{#if general}}
+                                General
+                                {{/if}}
+                                {{#if world}}
+                                World
+                                {{/if}}
+                                {{#if business}}
+                                Business
+                                {{/if}}
+                                {{#if entertainment}}
+                                Entertainment
+                                {{/if}}
+                                {{#if health}}
+                                Health
+                                {{/if}}
+                                {{#if science}}
+                                Science
+                                {{/if}}
+                                {{#if sports}}
+                                Sports
+                                {{/if}}
+                                {{#if technology}}
+                                Technology
+                                {{/if}}
+                                {{#if query}}
+                                {{query}}
+                                {{/if}}
+                                {{#if search}}
+                                Search results for {{search}}.
+                                {{/if}}
+                            </h4>
+                            <div >
+                            {{#each savedBookmarkArr}}
+                            <input type="hidden" class="savedBookmarks" value="{{this}}" id="savedBookmarkArr-{{@index}}">
+                            {{/each}}
+                            </div>
+                            <div class="p-3 news">
+                                {{#each news}}
+                                <div class="card mb-3 shadow" style="max-width: 100%;">
+                                    <div class="newsCards">
+                                        <input type="hidden" value="{{this.source.name}}" id="source-{{@index}}">
+                                        <input type="hidden" value="{{this.author}}" id="author-{{@index}}">
+                                        <input type="hidden" value="{{this.title}}" id="title-{{@index}}">
+                                        <input type="hidden" value="{{this.description}}" id="description-{{@index}}">
+                                        <input type="hidden" value="{{this.url}}" id="url-{{@index}}">
+                                        <input type="hidden" value="{{this.urlToImage}}" id="urlToImage-{{@index}}">
+                                        <input type="hidden" value="{{this.publishedAt}}"id="publishedAt-{{@index}}" class="publishedAt">
+
+                                        <input type="hidden" value="{{this.content}}" id="content-{{@index}}">
+                                        <div class="row no-gutters">
+                                            <div class="col-md-3 text-center">
+                                                <img src="{{this.urlToImage}}" class="card-img mt-3 ml-3" alt="..."
+                                                    style="width: 150px; max-width: 150px; max-height:100px;">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="card-body ml-3">
+                                                    <h6 class="card-title">{{this.title}}</h6>
+                                                    <p class="card-text">{{this.source.name}}</p>
+                                                    <p class="card-text"><small class="text-muted time"></small></p>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-0">
+                                        <div class="col-sm-1 offset-sm-11 offset-10">
+                                            <i id="bookmark-{{@index}}" class="bookmark far fa-bookmark mb-3"></i>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                {{/each}}
+                                <div class="row mt-5">
+                                    <div class="col-md-4 offset-md-4 ">
+                                        <nav aria-label="Page navigation example">
+                                            <ul class="pagination">
+                                                {{#if topHeadlines}}
+                                                <li class="page-item"><a class="page-link bg-success text-white"
+                                                        href="?page=1">1</a></li>
+                                                <li class="page-item"><a class="page-link bg-success text-white"
+                                                        href="?page=2">2</a></li>
+                                                {{else}}
+                                                {{#if query}}
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{query}}&page=1">1</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{query}}&page=2">2</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{query}}&page=3">3</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{query}}&page=4">4</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{query}}&page=5">5</a></li>
+                                                {{else if search}}
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{search}}&page=1">1</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{search}}&page=2">2</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{search}}&page=3">3</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{search}}&page=4">4</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?q={{search}}&page=5">5</a></li>
+                                                {{else}}
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?page=1">1</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?page=2">2</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?page=3">3</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?page=4">4</a></li>
+                                                <li class="page-item "><a class="page-link bg-success text-white"
+                                                        href="?page=5">5</a></li>
+                                                {{/if}}
+                                                {{/if}}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-md-4 py-3 text-center weather">
+                            <div class="container ml-3">
+                                <div class="row">
+                                    <div id="openweathermap-widget-5"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="my-3 mr-5 py-2 px-2 border border rounded w-100"
+                                        style="min-height: 40vh; max-height: 40vh">
+                                        {{#if user}}
+                                        {{#if user.interests.length}}
+                                        <div>
+                                            <h5 class="text-center text-success">Interests</h5>
+                                        </div>
+                                        <div id="allinterests" style="height: 65%; max-height: 65%; overflow-y:auto">
+                                            {{#each user.interests}}
+                                            <input type="hidden" value="{{this}}" class="interests">
+                                            <a href="/interests?q={{this}}"
+                                                class="btn btn-sm btn-outline-info m-1">{{this}}</a>
+                                            {{/each}}
+                                        </div>
+                                        <div id="interestcol">
+
+                                        </div>
+                                        {{!-- Ad Box! --}}
+                                        <div>
+                                            <button
+                                                class="btn btn-sm btn-outline-success rounded-circle float-right m-2"
+                                                type="button" id="new"><i class="fas fa-plus"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger rounded-circle float-right m-2"
+                                                type="button" id="del"><i class="far fa-trash-alt"></i></button>
+                                        </div>
+                                        {{else}}
+                                        <div class="p-5">
+                                            <h5 class="font-weight-lighter text-center">Add your interests here.</h5>
+                                            <button class="btn btn-sm btn-outline-success rounded float-center m-2"
+                                                type="button" id="new"><i class="fas fa-plus"></i> Add Interest</button>
+                                        </div>
+                                        <div id="interestcol">
+
+                                        </div>
+                                        {{/if}}
+                                        {{else}}
+                                        <div class="p-5">
+                                            <h5 class="font-weight-lighter text-center">Log in to add interests and use
+                                                other features.</h5>
+                                            <a href="/login"
+                                                class="btn btn-sm btn-outline-success rounded float-center m-2"><i
+                                                    class="fas fa-sign-in-alt"></i> Log In</a>
+                                        </div>
+                                        <div id="interestcol">
+
+                                            {{/if}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+        <!-- MODAL -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body news-modal">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            aria-hidden="true" id='interestmodal'>
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-white">Delete interests</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3 deleteinterests">
+                        <form method="POST" action="/deleteinterests">
+                            {{#each user.interests}}
+                            <div class="form-check">
+                                <input class="form-check-input interestcheck" type="checkbox" name="interests"
+                                    value="{{this}}">
+                                <label class="form-check-label">
+                                    {{this}}
+                                </label>
+                            </div>
+                            {{/each}}
+                            <button type="submit" class="btn btn-danger btn-sm mt-3" id="deletebutton"
+                                disabled>Delete</button>
+                        </form>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+            aria-hidden="true" id='historymodal'>
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header bg-dark">
+                        <h5 class="modal-title text-white">Search History</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body p-3">
+                        {{#if user.history.length}}
+                        <form method="POST">
+                            <input type="checkbox" class="btn btn-success btn-sm mt-3 mr-2" id="selectall">
+                            <button type="submit" class="btn btn-danger btn-sm mt-3 mr-2" id="historydelete"
+                                formaction="/deletehistory" disabled>Delete</button>
+                            <button type="submit" class="btn btn-warning btn-sm mt-3" id="interestadd"
+                                formaction="/interestadd" disabled>Add as Interest</button>
+                            <div class="mt-3 allhistory">
+                                {{#each user.history}}
+                                <div class="form-check">
+                                    <input class="form-check-input historycheck mr-4" type="checkbox" name="history"
+                                        value="{{this}}">
+                                    <label class="form-check-label">
+                                        <a href="search?q={{this}}" class="text-dark">{{this}}</a>
+                                    </label>
+                                </div>
+                                {{/each}}
+                            </div>
+
+                        </form>
+                        {{else}}
+                        <h3 class="font-weight-lighter text-center m-4">No History.</h3>
+                        {{/if}}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {{#if user.city.length}}
+        <input type="hidden" value="{{user.city}}" id="city">
+        {{/if}}
+        <input type="hidden" value="{{user.id}}" class="userId" id="userId">
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+<script src="js/homepage-bookmark.js"></script>
+
+</html>
+
